@@ -10,7 +10,7 @@ extends CharacterBody3D
 @export var SPEED: float
 @export var CHARGE_TIMER: Timer
 @export var THROW_BAR: ProgressBar
-
+@export var CAMERA_LOCKED: bool = false
 var camera_sensitivity: float
 var holding_box: bool = false
 var pickup_distance: Vector3 = Vector3(0,0,-1.5)
@@ -19,6 +19,7 @@ var held_object = null
 var charge_ratio: float = 0.0
 
 func _ready() -> void:
+	print(pivot_point.rotation)
 	camera_sensitivity = CAMERA_SENSITIVITY/10000
 	THROW_BAR.hide()
 
@@ -37,7 +38,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		#If esc pressed show MOUSE
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
-	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED && !CAMERA_LOCKED:
 		if event is InputEventMouseMotion:
 			#Rotates in radians, so multiply by small factor (sensitivity) since MOUSE moves in num of pixels
 			pivot_point.rotate_y(-event.relative.x * camera_sensitivity)
@@ -84,6 +85,7 @@ func throw_package(package: InteractableObject, throw_velocity: Vector3= Vector3
 		package.throw(throw_velocity)
 		holding_box = false
 		held_object = null
+	
 
 func check_for_throw() -> void: 
 	"""
@@ -108,3 +110,12 @@ func check_for_throw() -> void:
 		if charge_ratio > 0.05 and not THROW_BAR.visible:
 			THROW_BAR.show()
 		THROW_BAR.value = charge_ratio*100
+
+
+func reset_player_state() -> void:
+	"""
+	Reset all transforms to 0
+	"""
+	self.rotation=Vector3.ZERO
+	self.pivot_point.rotation_degrees=Vector3(0,180,0)
+	CAMERA.rotation=Vector3.ZERO
