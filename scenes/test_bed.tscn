@@ -1,0 +1,107 @@
+[gd_scene load_steps=22 format=3 uid="uid://0agxewogh274"]
+
+[ext_resource type="PackedScene" uid="uid://bwsr1ekcvqef" path="res://scenes/town_tiles/town_grid_1.tscn" id="1_ssdcn"]
+[ext_resource type="Shader" uid="uid://cujve4hlpntf2" path="res://Assets/sky.gdshader" id="1_tmmdy"]
+[ext_resource type="PackedScene" uid="uid://cf4bm6grae4xg" path="res://scenes/player.tscn" id="2_kgelg"]
+[ext_resource type="PackedScene" uid="uid://ndiljbld6vyh" path="res://scenes/interactable_objects/packages/package_1.tscn" id="3_kgelg"]
+[ext_resource type="PackedScene" uid="uid://cev6i8fjokww4" path="res://scenes/town_tiles/town_grid_2.tscn" id="4_74khn"]
+[ext_resource type="PackedScene" uid="uid://t7ipvurg7vg3" path="res://scenes/town_tiles/town_grid_3.tscn" id="5_4o70a"]
+[ext_resource type="PackedScene" uid="uid://cb7elip7w5ta2" path="res://scenes/delivery_zones/house_1.tscn" id="7_vh4rc"]
+[ext_resource type="PackedScene" uid="uid://chrv50q48n682" path="res://scenes/delivery_zones/house_2.tscn" id="8_xulvy"]
+
+[sub_resource type="Gradient" id="Gradient_tmmdy"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_vh4rc"]
+gradient = SubResource("Gradient_tmmdy")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.115385, 0.786325)
+
+[sub_resource type="Curve" id="Curve_tmmdy"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.214286, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.726891), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_vh4rc"]
+curve = SubResource("Curve_tmmdy")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_vh4rc"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xulvy"]
+noise = SubResource("FastNoiseLite_vh4rc")
+seamless = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_tmmdy"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_vh4rc"]
+noise = SubResource("FastNoiseLite_tmmdy")
+seamless = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_xulvy"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_bd0fe"]
+noise = SubResource("FastNoiseLite_xulvy")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vh4rc"]
+shader = ExtResource("1_tmmdy")
+shader_parameter/cloud_shape_sampler = SubResource("NoiseTexture2D_vh4rc")
+shader_parameter/cloud_noise_sampler = SubResource("NoiseTexture2D_xulvy")
+shader_parameter/cloud_curves = SubResource("CurveTexture_vh4rc")
+shader_parameter/clouds_samples = 32
+shader_parameter/shadow_sample = 4
+shader_parameter/clouds_density = 0.3
+shader_parameter/clouds_scale = 0.0
+shader_parameter/clouds_smoothness = 0.035
+shader_parameter/clouds_light_color = Color(1, 1, 1, 1)
+shader_parameter/clouds_shadow_intensity = 1.0
+shader_parameter/high_clouds_sampler = SubResource("NoiseTexture2D_bd0fe")
+shader_parameter/high_clouds_density = 0.0
+shader_parameter/top_color = Color(0.34902, 0.588235, 1, 1)
+shader_parameter/bottom_color = Color(0, 0.329412, 0.968627, 1)
+shader_parameter/sun_scatter = Color(0.298039, 0.298039, 0.298039, 1)
+shader_parameter/astro_tint = Color(0.940034, 0.848274, 0.629056, 1)
+shader_parameter/astro_sampler = SubResource("GradientTexture2D_vh4rc")
+shader_parameter/astro_scale = 6.6
+shader_parameter/astro_intensity = 1.7
+shader_parameter/stars_intensity = 0.0
+shader_parameter/shooting_stars_intensity = 0.0
+shader_parameter/shooting_star_tint = Color(0, 0, 0, 1)
+
+[sub_resource type="Sky" id="Sky_xulvy"]
+sky_material = SubResource("ShaderMaterial_vh4rc")
+
+[sub_resource type="Environment" id="Environment_bd0fe"]
+background_mode = 2
+sky = SubResource("Sky_xulvy")
+
+[node name="TestBed" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.872001, 0.489504, 0, -0.489504, 0.872001, 0, 0, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_bd0fe")
+
+[node name="town_grid_1" parent="." instance=ExtResource("1_ssdcn")]
+
+[node name="town_grid_2" parent="." instance=ExtResource("4_74khn")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 10, -10)
+
+[node name="town_grid_3" parent="." instance=ExtResource("5_4o70a")]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -10, 10, 0)
+
+[node name="Player" parent="." instance=ExtResource("2_kgelg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.08, 1.1, 0.281)
+
+[node name="House1" parent="." instance=ExtResource("7_vh4rc")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 13.732, 5, -0.345)
+
+[node name="Package1" parent="." instance=ExtResource("3_kgelg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.471722, 0.25, -1.79745)
+
+[node name="Package2" parent="." instance=ExtResource("3_kgelg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.91201, 0.25, -0.169969)
+
+[node name="House2" parent="." instance=ExtResource("8_xulvy")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.793726, 12.5, 11.9817)

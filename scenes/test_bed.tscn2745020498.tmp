@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://0agxewogh274"]
+
+[ext_resource type="PackedScene" uid="uid://bwsr1ekcvqef" path="res://scenes/town_tiles/town_grid_1.tscn" id="1_ssdcn"]
+[ext_resource type="PackedScene" uid="uid://cf4bm6grae4xg" path="res://scenes/player.tscn" id="2_kgelg"]
+[ext_resource type="PackedScene" uid="uid://ndiljbld6vyh" path="res://scenes/interactable_objects/packages/package_1.tscn" id="3_kgelg"]
+
+[node name="TestBed" type="Node3D"]
+
+[node name="town_grid_1" parent="." instance=ExtResource("1_ssdcn")]
+
+[node name="Player" parent="." instance=ExtResource("2_kgelg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.08, 1.1, 0.281)
+
+[node name="Package1" parent="." instance=ExtResource("3_kgelg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.106898, 0.359443, -2.07723)
+PROMT_MESSAGE = null
+PROMT_INPUT = null

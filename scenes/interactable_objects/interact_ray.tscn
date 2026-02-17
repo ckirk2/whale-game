@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://boailmti7edh4"]
+
+[ext_resource type="Script" uid="uid://c62jjsrdaw8rn" path="res://components/interact_ray.gd" id="1_jrvnc"]
+
+[node name="interact_ray" type="RayCast3D" node_paths=PackedStringArray("PROMT")]
+target_position = Vector3(0, 0, -2.1)
+collision_mask = 2
+collide_with_areas = true
+script = ExtResource("1_jrvnc")
+PROMT = NodePath("prompt")
+
+[node name="prompt" type="Label" parent="."]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -24.5
+offset_bottom = 24.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Promt
+[KEY]"
+horizontal_alignment = 1

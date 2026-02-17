@@ -1,0 +1,38 @@
+[gd_scene load_steps=7 format=3 uid="uid://ndiljbld6vyh"]
+
+[ext_resource type="Script" uid="uid://bvdga72hguswi" path="res://scripts/interactable_objects/package1.gd" id="1_a0mdo"]
+[ext_resource type="Material" uid="uid://bj2oqocp866vh" path="res://Assets/materials/simple_outline.tres" id="2_krkl4"]
+[ext_resource type="Script" uid="uid://dj4x1ye4ji4fp" path="res://scripts/deliverable_objects/deliverable_package1.gd" id="3_yo122"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_krkl4"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_yo122"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yo122"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="Package1" type="RigidBody3D" node_paths=PackedStringArray("MESH_LIST")]
+collision_layer = 7
+collision_mask = 5
+script = ExtResource("1_a0mdo")
+OUTLINE_MATERIAL = ExtResource("2_krkl4")
+MESH_LIST = [NodePath("MeshInstance3D")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_krkl4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_yo122")
+
+[node name="Area3D" type="Area3D" parent="." node_paths=PackedStringArray("Package")]
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("3_yo122")
+Package = NodePath("..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_yo122")
+
+[connection signal="interacted" from="." to="." method="_on_interacted"]

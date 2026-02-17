@@ -1,0 +1,63 @@
+[gd_scene load_steps=5 format=3 uid="uid://cf4bm6grae4xg"]
+
+[ext_resource type="PackedScene" uid="uid://boailmti7edh4" path="res://scenes/interactable_objects/interact_ray.tscn" id="1_3vyb7"]
+[ext_resource type="Script" uid="uid://ckob2e2egp5uw" path="res://scripts/player/player.gd" id="1_g2els"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u8vuu"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_3vyb7"]
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("pivot_point", "CAMERA", "CHARGE_TIMER", "THROW_BAR")]
+collision_layer = 5
+collision_mask = 5
+script = ExtResource("1_g2els")
+pivot_point = NodePath("Pivot")
+CAMERA = NodePath("Pivot/Camera3D")
+SPEED = 5.0
+CHARGE_TIMER = NodePath("ThrowTimer")
+THROW_BAR = NodePath("CanvasLayer/Control/ProgressBar")
+
+[node name="Pivot" type="Node3D" parent="."]
+metadata/_edit_group_ = true
+
+[node name="Camera3D" type="Camera3D" parent="Pivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.493788, 0)
+
+[node name="interact_ray" parent="Pivot/Camera3D" instance=ExtResource("1_3vyb7")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_u8vuu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+mesh = SubResource("CapsuleMesh_3vyb7")
+
+[node name="ThrowTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = 260.0
+offset_right = 125.0
+offset_bottom = 287.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+show_percentage = false

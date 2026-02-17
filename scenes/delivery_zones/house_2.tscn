@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=3 uid="uid://chrv50q48n682"]
+
+[ext_resource type="Script" uid="uid://df7qenby1vlgq" path="res://scripts/delivery_zones/house2.gd" id="1_i6pj1"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_a01jp"]
+size = Vector3(5, 25, 5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a01jp"]
+size = Vector3(5, 25, 5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i6pj1"]
+size = Vector3(2.5, 2.5, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a01jp"]
+transparency = 1
+albedo_color = Color(0, 0.635294, 0.894118, 0.482353)
+
+[sub_resource type="BoxMesh" id="BoxMesh_i6pj1"]
+material = SubResource("StandardMaterial3D_a01jp")
+size = Vector3(2.5, 2.5, 1)
+
+[node name="House2" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_a01jp")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 5
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_a01jp")
+
+[node name="Area3D" type="Area3D" parent="." node_paths=PackedStringArray("DELIVERY_TIMER")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -11.25, 2.5)
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("1_i6pj1")
+DELIVERY_TIMER = NodePath("../DeliveryTimer")
+
+[node name="DeliveryZone" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_i6pj1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
+mesh = SubResource("BoxMesh_i6pj1")
+
+[node name="DeliveryTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="area_entered" from="Area3D" to="Area3D" method="_on_area_entered"]
+[connection signal="area_exited" from="Area3D" to="Area3D" method="_on_area_exited"]
+[connection signal="delivered" from="Area3D" to="Area3D" method="_on_delivered"]

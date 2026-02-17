@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bj2oqocp866vh"]
+
+[ext_resource type="Shader" uid="uid://wbe5vsto4cor" path="res://Assets/materials/perfect_outline.gdshader" id="1_8v170"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_8v170")
+shader_parameter/outline_color = Color(0.489834, 0.654026, 1, 1)
+shader_parameter/outline_width = 1.0

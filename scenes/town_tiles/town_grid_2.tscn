@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://cev6i8fjokww4"]
+
+[ext_resource type="Material" uid="uid://2ivxw6uqo88i" path="res://Assets/materials/prototype_grid/ground_grid2.tres" id="1_sooib"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a540x"]
+size = Vector3(20, 0.1, 20)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vppip"]
+size = Vector3(20, 0.1, 20)
+
+[node name="town_grid_2" type="Node3D"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+collision_layer = 5
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_a540x")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_vppip")
+surface_material_override/0 = ExtResource("1_sooib")
