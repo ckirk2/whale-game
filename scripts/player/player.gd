@@ -11,6 +11,7 @@ extends CharacterBody3D
 @export var CHARGE_TIMER: Timer
 @export var THROW_BAR: ProgressBar
 @export var CAMERA_LOCKED: bool = false
+@export var mouseController: MouseController
 var camera_sensitivity: float
 var holding_box: bool = false
 var pickup_distance: Vector3 = Vector3(0,0,-1.5)
@@ -19,7 +20,6 @@ var held_object = null
 var charge_ratio: float = 0.0
 
 func _ready() -> void:
-	print(pivot_point.rotation)
 	camera_sensitivity = CAMERA_SENSITIVITY/10000
 	THROW_BAR.hide()
 
@@ -29,21 +29,8 @@ func _process(_delta: float) -> void:
 		held_object.global_transform = held_object.global_transform.interpolate_with(camera_transform.translated_local(pickup_distance), pickup_lerp)
 		check_for_throw()
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton:
-		#If player clicks in window, remove MOUSE cursor
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+#func _unhandled_input(event: InputEvent) -> void:
 
-	elif event.is_action_pressed("ui_cancel"):
-		#If esc pressed show MOUSE
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-
-	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED && !CAMERA_LOCKED:
-		if event is InputEventMouseMotion:
-			#Rotates in radians, so multiply by small factor (sensitivity) since MOUSE moves in num of pixels
-			pivot_point.rotate_y(-event.relative.x * camera_sensitivity)
-			CAMERA.rotate_x(-event.relative.y * camera_sensitivity)
-			CAMERA.rotation.x = clamp(CAMERA.rotation.x, deg_to_rad(-90), deg_to_rad(90))
 
 func _physics_process(delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.

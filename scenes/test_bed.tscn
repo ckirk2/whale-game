@@ -79,7 +79,7 @@ sky = SubResource("Sky_xulvy")
 [node name="TestBed" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.872001, 0.489504, 0, -0.489504, 0.872001, 0, 0, 0)
+transform = Transform3D(-0.32416916, -0.6177558, 0.7164443, -0.06204381, 0.7695945, 0.6355117, -0.9439625, 0.16156237, -0.28780666, 0, 0, 0)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_bd0fe")
