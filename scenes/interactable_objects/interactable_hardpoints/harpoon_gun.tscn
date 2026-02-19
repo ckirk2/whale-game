@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bwol67ml7gblk"]
+[gd_scene load_steps=10 format=3 uid="uid://bwol67ml7gblk"]
 
 [ext_resource type="Script" uid="uid://cwcpsjhills82" path="res://scripts/interactable_objects/harpoon_gun.gd" id="1_asaq6"]
 [ext_resource type="Material" uid="uid://bj2oqocp866vh" path="res://Assets/materials/simple_outline.tres" id="2_t077w"]
-[ext_resource type="Script" uid="uid://d4ld2x7nnrtgx" path="res://scripts/interactable_objects/harpoon_mouse.gd" id="3_m05s0"]
+[ext_resource type="Script" uid="uid://d4ld2x7nnrtgx" path="res://scripts/interactable_objects/hardpoint_controller.gd" id="3_m05s0"]
+[ext_resource type="PackedScene" uid="uid://b3775i2m7cdxu" path="res://scenes/harpoon.tscn" id="4_pa6kd"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_asaq6"]
 size = Vector3(0.25, 1, 0.25)
@@ -17,7 +18,10 @@ size = Vector3(0.25, 1, 0.25)
 [sub_resource type="BoxMesh" id="BoxMesh_m05s0"]
 size = Vector3(0.1, 0.1, 1)
 
-[node name="HarpoonGun" type="StaticBody3D" node_paths=PackedStringArray("X_PIVOT", "Y_PIVOT", "PLAYER_HOLD_POINT", "INTERACT_RACE_TIMER", "PLAYER_LEAVE", "mouseController")]
+[sub_resource type="BoxMesh" id="BoxMesh_pa6kd"]
+size = Vector3(0.05, 0.15, 0.01)
+
+[node name="HarpoonGun" type="StaticBody3D" node_paths=PackedStringArray("X_PIVOT", "Y_PIVOT", "PLAYER_HOLD_POINT", "INTERACT_RACE_TIMER", "PLAYER_LEAVE", "mouseController", "harpoonShootLoation", "harpoon")]
 collision_layer = 3
 collision_mask = 0
 script = ExtResource("1_asaq6")
@@ -26,13 +30,17 @@ Y_PIVOT = NodePath("y_pivot")
 PLAYER_HOLD_POINT = NodePath("y_pivot/x_pivot/player_hold_point")
 INTERACT_RACE_TIMER = NodePath("interact_timer")
 PLAYER_LEAVE = NodePath("PlayerLeave")
-mouseController = NodePath("MouseController")
+mouseController = NodePath("HardpointMouseController")
+harpoonShootLoation = NodePath("y_pivot/x_pivot/MeshInstance3D/HarpoonShootLocation")
+harpoon = NodePath("Harpoon")
 OUTLINE_MATERIAL = ExtResource("2_t077w")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.91440946, -0.40479052, 0, 0.40479052, 0.91440946, 0, 0.096028656, -0.20090032)
 shape = SubResource("BoxShape3D_asaq6")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.91440946, -0.40479052, 0, 0.40479052, 0.91440946, 0, 0.096028656, -0.20090032)
 mesh = SubResource("BoxMesh_t077w")
 
 [node name="y_pivot" type="Node3D" parent="."]
@@ -41,8 +49,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.54, 0)
 [node name="x_pivot" type="Node3D" parent="y_pivot"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="y_pivot/x_pivot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08845949, 0.51873434)
+transform = Transform3D(1, 0, 0, 0, 0.9961947, 0.08715574, 0, -0.08715574, 0.9961947, 0, 0.09892005, 0.51873434)
 mesh = SubResource("BoxMesh_m05s0")
+
+[node name="HarpoonShootLocation" type="Node3D" parent="y_pivot/x_pivot/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0022875667, 0.59575975)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="y_pivot/x_pivot/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.07515809, 0.113152444, -0.1746633)
+mesh = SubResource("BoxMesh_pa6kd")
 
 [node name="player_hold_point" type="Node3D" parent="y_pivot/x_pivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.33650598, -0.8)
@@ -54,10 +69,14 @@ one_shot = true
 [node name="PlayerLeave" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2341224, -0.7812941)
 
-[node name="MouseController" type="Node" parent="." node_paths=PackedStringArray("xPivot", "yPivot", "playerHoldPoint")]
+[node name="Harpoon" parent="." instance=ExtResource("4_pa6kd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -100, 0)
+
+[node name="HardpointMouseController" type="Node" parent="." node_paths=PackedStringArray("xPivot", "yPivot", "playerHoldPoint", "hardPoint")]
 script = ExtResource("3_m05s0")
 xPivot = NodePath("../y_pivot/x_pivot")
 yPivot = NodePath("../y_pivot")
 playerHoldPoint = NodePath("../y_pivot/x_pivot/player_hold_point")
+hardPoint = NodePath("..")
 
 [connection signal="interacted" from="." to="." method="_on_interacted"]

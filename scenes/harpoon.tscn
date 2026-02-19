@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://b3775i2m7cdxu"]
+
+[ext_resource type="Script" uid="uid://c77fi47224ow5" path="res://components/projectile_component.gd" id="1_psboj"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nrb4s"]
+size = Vector3(0.1, 0.1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wbtou"]
+albedo_color = Color(0.6476691, 0, 0.21252093, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_psboj"]
+material = SubResource("StandardMaterial3D_wbtou")
+size = Vector3(0.1, 0.1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bq6s4"]
+albedo_color = Color(2.4065375e-06, 0.6001205, 0.5381588, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wbtou"]
+material = SubResource("StandardMaterial3D_bq6s4")
+size = Vector3(0.025, 0.1, 0.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_psboj"]
+size = Vector3(0.01, 0.01, 0.01)
+
+[node name="Harpoon" type="RigidBody3D"]
+collision_layer = 21
+collision_mask = 0
+
+[node name="Area3D" type="Area3D" parent="." node_paths=PackedStringArray("collisionShape", "lifeTimeTimer")]
+collision_layer = 21
+collision_mask = 0
+script = ExtResource("1_psboj")
+collisionShape = NodePath(".")
+fireVelocity = 42.0
+lifeTimeTimer = NodePath("../Lifetime")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_nrb4s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
+mesh = SubResource("BoxMesh_psboj")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.052977487, -0.4407267)
+mesh = SubResource("BoxMesh_wbtou")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_psboj")
+
+[node name="Lifetime" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true

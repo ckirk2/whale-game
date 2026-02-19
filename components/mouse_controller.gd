@@ -24,3 +24,4 @@ func _unhandled_input(event: InputEvent) -> void:
 			yPivot.rotate_y(-event.relative.x * cameraSensitivity)
 			xPivot.rotate_x(-event.relative.y * cameraSensitivity)
 			xPivot.rotation.x = clamp(xPivot.rotation.x, deg_to_rad(-90), deg_to_rad(90))
+			

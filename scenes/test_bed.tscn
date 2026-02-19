@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://0agxewogh274"]
+[gd_scene load_steps=24 format=3 uid="uid://0agxewogh274"]
 
 [ext_resource type="PackedScene" uid="uid://bwsr1ekcvqef" path="res://scenes/town_tiles/town_grid_1.tscn" id="1_ssdcn"]
 [ext_resource type="Shader" uid="uid://cujve4hlpntf2" path="res://Assets/sky.gdshader" id="1_tmmdy"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cb7elip7w5ta2" path="res://scenes/delivery_zones/house_1.tscn" id="7_vh4rc"]
 [ext_resource type="PackedScene" uid="uid://chrv50q48n682" path="res://scenes/delivery_zones/house_2.tscn" id="8_xulvy"]
 [ext_resource type="PackedScene" uid="uid://bwol67ml7gblk" path="res://scenes/interactable_objects/interactable_hardpoints/harpoon_gun.tscn" id="9_bd0fe"]
+[ext_resource type="PackedScene" uid="uid://2kwr6jrkuwk1" path="res://scenes/monsters/test_target.tscn" id="10_vcbwx"]
 
 [sub_resource type="Gradient" id="Gradient_tmmdy"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
@@ -108,4 +109,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.91201, 0.25, -0.169969)
 transform = Transform3D(-4.3711385e-08, 0, -0.99999994, 0, 1, 0, 0.99999994, 0, -4.3711385e-08, 11.67838, 12.5, 7.456769)
 
 [node name="HarpoonGun" parent="." instance=ExtResource("9_bd0fe")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6740146, 9.581522)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 10)
+
+[node name="TestTarget" parent="." instance=ExtResource("10_vcbwx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.063, 1.356, 30)
+
+[node name="town_grid_4" parent="." instance=ExtResource("1_ssdcn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20)
