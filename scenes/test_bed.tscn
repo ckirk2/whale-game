@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://0agxewogh274"]
+[gd_scene load_steps=24 format=3 uid="uid://0agxewogh274"]
 
 [ext_resource type="PackedScene" uid="uid://bwsr1ekcvqef" path="res://scenes/town_tiles/town_grid_1.tscn" id="1_ssdcn"]
 [ext_resource type="Shader" uid="uid://cujve4hlpntf2" path="res://Assets/sky.gdshader" id="1_tmmdy"]
@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://t7ipvurg7vg3" path="res://scenes/town_tiles/town_grid_3.tscn" id="5_4o70a"]
 [ext_resource type="PackedScene" uid="uid://cb7elip7w5ta2" path="res://scenes/delivery_zones/house_1.tscn" id="7_vh4rc"]
 [ext_resource type="PackedScene" uid="uid://chrv50q48n682" path="res://scenes/delivery_zones/house_2.tscn" id="8_xulvy"]
+[ext_resource type="PackedScene" uid="uid://bwol67ml7gblk" path="res://scenes/interactable_objects/interactable_hardpoints/harpoon_gun.tscn" id="9_bd0fe"]
+[ext_resource type="PackedScene" uid="uid://2kwr6jrkuwk1" path="res://scenes/monsters/test_target.tscn" id="10_vcbwx"]
 
 [sub_resource type="Gradient" id="Gradient_tmmdy"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
@@ -57,9 +59,9 @@ shader_parameter/clouds_light_color = Color(1, 1, 1, 1)
 shader_parameter/clouds_shadow_intensity = 1.0
 shader_parameter/high_clouds_sampler = SubResource("NoiseTexture2D_bd0fe")
 shader_parameter/high_clouds_density = 0.0
-shader_parameter/top_color = Color(0.34902, 0.588235, 1, 1)
-shader_parameter/bottom_color = Color(0, 0.329412, 0.968627, 1)
-shader_parameter/sun_scatter = Color(0.298039, 0.298039, 0.298039, 1)
+shader_parameter/top_color = Color(1.1262596e-05, 0.34792927, 0.8625563, 1)
+shader_parameter/bottom_color = Color(0.49113053, 0.66651696, 1, 1)
+shader_parameter/sun_scatter = Color(0.30692267, 0.3069227, 0.30692264, 1)
 shader_parameter/astro_tint = Color(0.940034, 0.848274, 0.629056, 1)
 shader_parameter/astro_sampler = SubResource("GradientTexture2D_vh4rc")
 shader_parameter/astro_scale = 6.6
@@ -78,7 +80,7 @@ sky = SubResource("Sky_xulvy")
 [node name="TestBed" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.872001, 0.489504, 0, -0.489504, 0.872001, 0, 0, 0)
+transform = Transform3D(-0.32416916, -0.6177558, 0.7164443, -0.06204381, 0.7695945, 0.6355117, -0.9439625, 0.16156237, -0.28780666, 0, 0, 0)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_bd0fe")
@@ -104,4 +106,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.471722, 0.25, -1.79745)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.91201, 0.25, -0.169969)
 
 [node name="House2" parent="." instance=ExtResource("8_xulvy")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.793726, 12.5, 11.9817)
+transform = Transform3D(-4.3711385e-08, 0, -0.99999994, 0, 1, 0, 0.99999994, 0, -4.3711385e-08, 11.67838, 12.5, 7.456769)
+
+[node name="HarpoonGun" parent="." instance=ExtResource("9_bd0fe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 10)
+
+[node name="TestTarget" parent="." instance=ExtResource("10_vcbwx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.063, 1.356, 30)
+
+[node name="town_grid_4" parent="." instance=ExtResource("1_ssdcn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20)
