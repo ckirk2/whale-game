@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://b3775i2m7cdxu"]
+[gd_scene load_steps=9 format=3 uid="uid://b3775i2m7cdxu"]
 
 [ext_resource type="Script" uid="uid://c77fi47224ow5" path="res://components/projectile_component.gd" id="1_psboj"]
+[ext_resource type="Script" uid="uid://dcts665iqpuda" path="res://scripts/interactable_objects/harpoon.gd" id="1_wbtou"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_nrb4s"]
 size = Vector3(0.1, 0.1, 1)
@@ -25,6 +26,7 @@ size = Vector3(0.01, 0.01, 0.01)
 [node name="Harpoon" type="RigidBody3D"]
 collision_layer = 21
 collision_mask = 0
+script = ExtResource("1_wbtou")
 
 [node name="Area3D" type="Area3D" parent="." node_paths=PackedStringArray("collisionShape", "lifeTimeTimer")]
 collision_layer = 21

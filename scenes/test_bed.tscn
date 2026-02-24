@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://0agxewogh274"]
+[gd_scene load_steps=28 format=3 uid="uid://0agxewogh274"]
 
 [ext_resource type="PackedScene" uid="uid://bwsr1ekcvqef" path="res://scenes/town_tiles/town_grid_1.tscn" id="1_ssdcn"]
 [ext_resource type="Shader" uid="uid://cujve4hlpntf2" path="res://Assets/sky.gdshader" id="1_tmmdy"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://chrv50q48n682" path="res://scenes/delivery_zones/house_2.tscn" id="8_xulvy"]
 [ext_resource type="PackedScene" uid="uid://bwol67ml7gblk" path="res://scenes/interactable_objects/interactable_hardpoints/harpoon_gun.tscn" id="9_bd0fe"]
 [ext_resource type="PackedScene" uid="uid://2kwr6jrkuwk1" path="res://scenes/monsters/test_target.tscn" id="10_vcbwx"]
+[ext_resource type="Shader" uid="uid://cno2vjxqxht5t" path="res://Assets/materials/water.gdshader" id="11_0c2sn"]
 
 [sub_resource type="Gradient" id="Gradient_tmmdy"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
@@ -77,10 +78,34 @@ sky_material = SubResource("ShaderMaterial_vh4rc")
 background_mode = 2
 sky = SubResource("Sky_xulvy")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_02yxd"]
+render_priority = 0
+shader = ExtResource("11_0c2sn")
+shader_parameter/primary_color = Color(0.015956933, 0.27176997, 0.50543684, 1)
+shader_parameter/secondary_color = Color(0.030861167, 0.12908158, 0.12826419, 1)
+shader_parameter/amount = 0.40000000596047003
+shader_parameter/speed = 0.60000000894072
+shader_parameter/metallic = 0.0
+shader_parameter/specular = 0.5
+shader_parameter/roughness = 0.4
+shader_parameter/height_scale = 10.0
+shader_parameter/depth_distance = 4.0000000596048
+shader_parameter/beers_law = 0.0
+shader_parameter/water_transparency = 0.0499999988824
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_vcbwx"]
+material = SubResource("ShaderMaterial_02yxd")
+size = Vector2(40, 40)
+subdivide_width = 5
+subdivide_depth = 5
+
+[sub_resource type="BoxMesh" id="BoxMesh_0c2sn"]
+size = Vector3(1, 50, 1)
+
 [node name="TestBed" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.32416916, -0.6177558, 0.7164443, -0.06204381, 0.7695945, 0.6355117, -0.9439625, 0.16156237, -0.28780666, 0, 0, 0)
+transform = Transform3D(-0.32416916, -0.6177558, 0.71644425, -0.06204381, 0.7695945, 0.63551176, -0.9439624, 0.16156237, -0.2878067, 0, 0, 0)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_bd0fe")
@@ -114,5 +139,32 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 10)
 [node name="TestTarget" parent="." instance=ExtResource("10_vcbwx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.063, 1.356, 30)
 
-[node name="town_grid_4" parent="." instance=ExtResource("1_ssdcn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20)
+[node name="WaterMeshes" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.9, 29.7)
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="WaterMeshes"]
+mesh = SubResource("PlaneMesh_vcbwx")
+skeleton = NodePath("../MeshInstance3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WaterMeshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 39.999996)
+mesh = SubResource("PlaneMesh_vcbwx")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="WaterMeshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, -3.8146973e-06)
+mesh = SubResource("PlaneMesh_vcbwx")
+skeleton = NodePath("../MeshInstance3D")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="WaterMeshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 39.999996)
+mesh = SubResource("PlaneMesh_vcbwx")
+skeleton = NodePath("../MeshInstance3D3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -20.5, 25)
+mesh = SubResource("BoxMesh_0c2sn")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, -18, 54)
+mesh = SubResource("BoxMesh_0c2sn")
+skeleton = NodePath("../MeshInstance3D")
