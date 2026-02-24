@@ -12,15 +12,18 @@ uniform float metallic = 0.6;
 uniform float specular = 0.5;
 uniform float roughness = 0.2;
 uniform float height_scale = 1.0;
+uniform float noise_height_scale = 1.0;
+uniform float sample_distance = 0.1;
+uniform float wave_frequency = 1.0;
 
 // Depth
 uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_nearest;
 uniform sampler2D depth_texture : hint_depth_texture, repeat_disable, filter_nearest;
-uniform float depth_distance : hint_range(0.0,20.0,0.1)=4.0;
+uniform float depth_distance : hint_range(0.0,20.0,0.01)=4.0;
 uniform float beers_law : hint_range(0.0, 20.0, 0.1)=12.0;
-uniform float water_transparency : hint_range(0.0,1.0,0.01) = 0.05;
+uniform float water_transparency : hint_range(0.0,1.0,0.001) = 0.05;
 
-
+varying float vertex_height;
 
 float generateOffset(float x, float z, float val1, float val2, float time) {
 	float radiansX = ((mod(x + z * x * val1, amount) / amount) + (time * speed) * mod(x * 0.8 + z, 1.5)) * 2.0 * 3.14;
@@ -34,7 +37,7 @@ vec3 applyDistortion(vec3 vertex, float time) {
 	float yd = generateOffset(vertex.x, vertex.z, 0.1, 0.3, time);
 	float zd = generateOffset(vertex.x, vertex.z, 0.15, 0.2, time);
 
-	return vertex + vec3(xd, yd*height_scale, zd);
+	return vertex + vec3(xd, yd*noise_height_scale, zd);
 }
 
 float fresnel(float fersnel_amount, vec3 normal, vec3 view)
@@ -42,8 +45,10 @@ float fresnel(float fersnel_amount, vec3 normal, vec3 view)
 	return pow((1.0-clamp(dot(normalize(normal), normalize(view)), 0.0, 1.0)), fersnel_amount);
 }
 
+
 void vertex() {
 	VERTEX = applyDistortion(VERTEX, TIME * 0.1);
+	VERTEX.y += cos(VERTEX.z +TIME * wave_frequency) * height_scale;
 }
 
 void fragment() {
