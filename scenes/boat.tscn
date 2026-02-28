@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3 uid="uid://dpkqqktnnv5st"]
+
+[ext_resource type="Script" uid="uid://dqojbid5tmgds" path="res://scripts/boat.gd" id="1_qyrje"]
+[ext_resource type="Script" uid="uid://b3vxdmsndytr5" path="res://scripts/boat_interaction.gd" id="2_lw6pk"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vqddl"]
+size = Vector3(10, 1, 10)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vqddl"]
+size = Vector3(10, 1, 10)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mwg61"]
+size = Vector3(1, 2, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mwg61"]
+size = Vector3(1, 2, 1)
+
+[node name="Boat" type="CharacterBody3D"]
+script = ExtResource("1_qyrje")
+TOP_SPEED = 10.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_vqddl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_vqddl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 4)
+mesh = SubResource("BoxMesh_mwg61")
+
+[node name="InteractionZone" type="Area3D" parent="." node_paths=PackedStringArray("INTERACT_RACE_TIMER", "PLAYER_HOLD_POINT", "BOAT")]
+collision_layer = 3
+collision_mask = 0
+script = ExtResource("2_lw6pk")
+INTERACT_RACE_TIMER = NodePath("../Timer")
+PLAYER_HOLD_POINT = NodePath("../PlayerHoldPoint")
+BOAT = NodePath("..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionZone"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 4)
+shape = SubResource("BoxShape3D_mwg61")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="PlayerHoldPoint" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5999999, 2.5)
+
+[connection signal="interacted" from="InteractionZone" to="InteractionZone" method="_on_interacted"]

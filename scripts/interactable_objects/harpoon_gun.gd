@@ -46,8 +46,6 @@ func undock_from_hardpoint() -> void:
 	player.MOVEMENT_LOCKED = false
 	player.mouseController.CAMERA_LOCKED = false
 	on_hardpoint = false
-	player.global_transform = PLAYER_LEAVE.global_transform
-	mouseController.CAMERA_LOCKED = true
 	enable_interact()
 
 

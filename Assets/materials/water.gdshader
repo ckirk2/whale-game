@@ -8,6 +8,7 @@ uniform float amount: hint_range(0.2, 5.0, 0.1) = 0.8;
 // The speed of the trangles height change
 uniform float speed: hint_range(0.1, 5.0, 0.1) = 1;
 // Water visuals
+uniform float distance_from_shore_factor = 50;
 uniform float metallic = 0.6;
 uniform float specular = 0.5;
 uniform float roughness = 0.2;
@@ -48,7 +49,7 @@ float fresnel(float fersnel_amount, vec3 normal, vec3 view)
 
 void vertex() {
 	VERTEX = applyDistortion(VERTEX, TIME * 0.1);
-	VERTEX.y += cos(VERTEX.z +TIME * wave_frequency) * height_scale;
+	VERTEX.y += cos(VERTEX.z +TIME * wave_frequency) * height_scale * VERTEX.z/distance_from_shore_factor;
 }
 
 void fragment() {
