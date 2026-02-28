@@ -3,10 +3,6 @@ render_mode world_vertex_coords;
 // Water color
 uniform vec4 primary_color: source_color = vec4(0.0, 0.2, 1.0, 1.0);
 uniform vec4 secondary_color: source_color = vec4(0.0, 0.2, 1.0, 1.0);
-// Amount of height for each triangle
-uniform float amount: hint_range(0.2, 5.0, 0.1) = 0.8;
-// The speed of the trangles height change
-uniform float speed: hint_range(0.1, 5.0, 0.1) = 1;
 // Water visuals
 uniform float distance_from_shore_factor = 50;
 uniform float metallic = 0.6;
@@ -15,7 +11,8 @@ uniform float roughness = 0.2;
 uniform float height_scale = 1.0;
 uniform float noise_height_scale = 1.0;
 uniform float sample_distance = 0.1;
-uniform float wave_frequency = 1.0;
+uniform float wave_speed = 1.0;
+uniform float wave_dist = 1.0;
 
 // Depth
 uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_nearest;
@@ -27,18 +24,16 @@ uniform float water_transparency : hint_range(0.0,1.0,0.001) = 0.05;
 varying float vertex_height;
 
 float generateOffset(float x, float z, float val1, float val2, float time) {
-	float radiansX = ((mod(x + z * x * val1, amount) / amount) + (time * speed) * mod(x * 0.8 + z, 1.5)) * 2.0 * 3.14;
-	float radiansZ = ((mod(val2 * (z * x + x * z), amount) / amount) + (time * speed) * 2.0 * mod(x, 2.0)) * 2.0 * 3.14;
+	float radiansX = ((mod(x + z * x * val1, noise_height_scale) / noise_height_scale) + time * mod(x * 0.8 + z, 1.5)) * 2.0 * 3.14;
+	float radiansZ = ((mod(val2 * (z * x + x * z), noise_height_scale) / noise_height_scale) + time * 2.0 * mod(x, 2.0)) * 2.0 * 3.14;
 
-	return amount * 0.5 * (sin(radiansZ) * cos(radiansX));
+	return noise_height_scale * 0.5 * (sin(radiansZ) * cos(radiansX));
 }
 
 vec3 applyDistortion(vec3 vertex, float time) {
-	float xd = generateOffset(vertex.x, vertex.z, 0.2, 0.1, time);
 	float yd = generateOffset(vertex.x, vertex.z, 0.1, 0.3, time);
-	float zd = generateOffset(vertex.x, vertex.z, 0.15, 0.2, time);
 
-	return vertex + vec3(xd, yd*noise_height_scale, zd);
+	return vertex + vec3(0, yd, 0);
 }
 
 float fresnel(float fersnel_amount, vec3 normal, vec3 view)
@@ -48,8 +43,16 @@ float fresnel(float fersnel_amount, vec3 normal, vec3 view)
 
 
 void vertex() {
+	if (VERTEX.z > distance_from_shore_factor){
+		float vertex_location = distance_from_shore_factor;
+	}
+
+	else{
+		float  vertex_location = VERTEX.z;
+	}
+
 	VERTEX = applyDistortion(VERTEX, TIME * 0.1);
-	VERTEX.y += cos(VERTEX.z +TIME * wave_frequency) * height_scale * VERTEX.z/distance_from_shore_factor;
+	VERTEX.y += cos((VERTEX.z + TIME * wave_speed)/wave_dist) * height_scale * VERTEX.z/distance_from_shore_factor;
 }
 
 void fragment() {

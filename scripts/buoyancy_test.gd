@@ -18,3 +18,8 @@ func _process(_delta: float) -> void:
 	
 
 	
+func generateOffset(x, z, val1, val2, time):
+	var radiansX = ((fmod(x + z * x * val1, amount) / amount) + (time * speed) * fmod(x * 0.8 + z, 1.5)) * 2.0 * 3.14
+	var radiansZ = ((fmod(val2 * (z * x + x * z), amount) / amount) + (time * speed) * 2.0 * fmod(x, 2.0)) * 2.0 * 3.14
+
+	return amount * 0.5 * (sin(radiansZ) * cos(radiansX))

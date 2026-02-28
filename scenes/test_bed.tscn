@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://2kwr6jrkuwk1" path="res://scenes/monsters/test_target.tscn" id="10_vcbwx"]
 [ext_resource type="Shader" uid="uid://cno2vjxqxht5t" path="res://Assets/materials/water.gdshader" id="11_0c2sn"]
 [ext_resource type="PackedScene" uid="uid://dpkqqktnnv5st" path="res://scenes/boat.tscn" id="11_02yxd"]
-[ext_resource type="Script" uid="uid://ditgluikdiphn" path="res://scenes/buoyancy_test.gd" id="11_kfroe"]
+[ext_resource type="Script" uid="uid://ditgluikdiphn" path="res://scripts/buoyancy_test.gd" id="12_02yxd"]
 
 [sub_resource type="Gradient" id="Gradient_tmmdy"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
@@ -84,25 +84,24 @@ render_priority = 0
 shader = ExtResource("11_0c2sn")
 shader_parameter/primary_color = Color(0.14949563, 0.2880494, 0.36899996, 1)
 shader_parameter/secondary_color = Color(0.5059244, 0.82421124, 0.99999994, 1)
-shader_parameter/amount = 1.00000001490119
-shader_parameter/speed = 0.60000000894072
-shader_parameter/distance_from_shore_factor = 50.0
+shader_parameter/distance_from_shore_factor = 100.0
 shader_parameter/metallic = 0.0
 shader_parameter/specular = 0.5
 shader_parameter/roughness = 0.4
-shader_parameter/height_scale = 1.0
-shader_parameter/noise_height_scale = 1.75
+shader_parameter/height_scale = 2.0
+shader_parameter/noise_height_scale = 2.0
 shader_parameter/sample_distance = 0.1
-shader_parameter/wave_frequency = 1.0
+shader_parameter/wave_speed = 20.0
+shader_parameter/wave_dist = 20.0
 shader_parameter/depth_distance = 19.99999955296
 shader_parameter/beers_law = 0.0
 shader_parameter/water_transparency = 0.0170000008075
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_vcbwx"]
 material = SubResource("ShaderMaterial_02yxd")
-size = Vector2(40, 40)
-subdivide_width = 5
-subdivide_depth = 5
+size = Vector2(100, 100)
+subdivide_width = 20
+subdivide_depth = 20
 
 [sub_resource type="BoxMesh" id="BoxMesh_0c2sn"]
 size = Vector3(1, 50, 1)
@@ -146,75 +145,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 10)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.063, 1.356, 30)
 
 [node name="WaterMeshes" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.9, 21.7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.9, 57.3)
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="WaterMeshes"]
 mesh = SubResource("PlaneMesh_vcbwx")
-skeleton = NodePath("../MeshInstance3D")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WaterMeshes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 39.999996)
-mesh = SubResource("PlaneMesh_vcbwx")
+skeleton = NodePath("")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="WaterMeshes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, -3.8146973e-06)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 100)
 mesh = SubResource("PlaneMesh_vcbwx")
-skeleton = NodePath("../MeshInstance3D")
-
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="WaterMeshes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 39.999996)
-mesh = SubResource("PlaneMesh_vcbwx")
-skeleton = NodePath("../MeshInstance3D3")
-
-[node name="MeshInstance3D5" type="MeshInstance3D" parent="WaterMeshes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 80, 0, 39.999996)
-mesh = SubResource("PlaneMesh_vcbwx")
-skeleton = NodePath("../MeshInstance3D3")
-
-[node name="MeshInstance3D6" type="MeshInstance3D" parent="WaterMeshes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 80, 0, -3.8146973e-06)
-mesh = SubResource("PlaneMesh_vcbwx")
-skeleton = NodePath("../MeshInstance3D3")
-
-[node name="MeshInstance3D7" type="MeshInstance3D" parent="WaterMeshes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0, 39.999996)
-mesh = SubResource("PlaneMesh_vcbwx")
-skeleton = NodePath("../MeshInstance3D3")
-
-[node name="MeshInstance3D8" type="MeshInstance3D" parent="WaterMeshes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0, -3.8146973e-06)
-mesh = SubResource("PlaneMesh_vcbwx")
-skeleton = NodePath("../MeshInstance3D3")
-
-[node name="MeshInstance3D9" type="MeshInstance3D" parent="WaterMeshes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0, 80)
-mesh = SubResource("PlaneMesh_vcbwx")
-skeleton = NodePath("../MeshInstance3D3")
-
-[node name="MeshInstance3D10" type="MeshInstance3D" parent="WaterMeshes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 80)
-mesh = SubResource("PlaneMesh_vcbwx")
-skeleton = NodePath("../MeshInstance3D3")
-
-[node name="MeshInstance3D12" type="MeshInstance3D" parent="WaterMeshes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 80)
-mesh = SubResource("PlaneMesh_vcbwx")
-skeleton = NodePath("../MeshInstance3D3")
-
-[node name="MeshInstance3D11" type="MeshInstance3D" parent="WaterMeshes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80, 0, 39.999996)
-mesh = SubResource("PlaneMesh_vcbwx")
-skeleton = NodePath("../MeshInstance3D3")
-
-[node name="MeshInstance3D13" type="MeshInstance3D" parent="WaterMeshes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80, 0, -7.6293945e-06)
-mesh = SubResource("PlaneMesh_vcbwx")
-skeleton = NodePath("../MeshInstance3D3")
-
-[node name="MeshInstance3D14" type="MeshInstance3D" parent="WaterMeshes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80, 0, 80)
-mesh = SubResource("PlaneMesh_vcbwx")
-skeleton = NodePath("../MeshInstance3D3")
+skeleton = NodePath("")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -20.5, 25)
@@ -228,10 +168,9 @@ skeleton = NodePath("../MeshInstance3D")
 [node name="Boat" parent="." instance=ExtResource("11_02yxd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, -0.8, -1)
 
-[node name="FloatingSphere" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9000001, 21.800001)
-script = ExtResource("11_kfroe")
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -2, 24)
+script = ExtResource("12_02yxd")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="FloatingSphere"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.8000002, 0)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D"]
 mesh = SubResource("SphereMesh_0c2sn")
