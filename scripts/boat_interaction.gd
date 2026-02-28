@@ -18,6 +18,7 @@ func _process(_delta: float) -> void:
 		if Input.is_action_just_pressed("interact") && INTERACT_RACE_TIMER.is_stopped():
 			undock_from_hardpoint()
 
+
 func _on_interacted(body: Variant) -> void:
 	if body is PlayerCharacter:
 		player = body
@@ -31,6 +32,5 @@ func _on_interacted(body: Variant) -> void:
 
 func undock_from_hardpoint() -> void:
 	player.MOVEMENT_LOCKED = false
-	player.mouseController.CAMERA_LOCKED = false
 	BOAT.PlayerDriving = false
 	enable_interact()

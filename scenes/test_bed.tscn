@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://0agxewogh274"]
+[gd_scene load_steps=30 format=3 uid="uid://0agxewogh274"]
 
 [ext_resource type="PackedScene" uid="uid://bwsr1ekcvqef" path="res://scenes/town_tiles/town_grid_1.tscn" id="1_ssdcn"]
 [ext_resource type="Shader" uid="uid://cujve4hlpntf2" path="res://Assets/sky.gdshader" id="1_tmmdy"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://2kwr6jrkuwk1" path="res://scenes/monsters/test_target.tscn" id="10_vcbwx"]
 [ext_resource type="Shader" uid="uid://cno2vjxqxht5t" path="res://Assets/materials/water.gdshader" id="11_0c2sn"]
 [ext_resource type="PackedScene" uid="uid://dpkqqktnnv5st" path="res://scenes/boat.tscn" id="11_02yxd"]
+[ext_resource type="Script" uid="uid://ditgluikdiphn" path="res://scenes/buoyancy_test.gd" id="11_kfroe"]
 
 [sub_resource type="Gradient" id="Gradient_tmmdy"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
@@ -105,6 +106,10 @@ subdivide_depth = 5
 
 [sub_resource type="BoxMesh" id="BoxMesh_0c2sn"]
 size = Vector3(1, 50, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_0c2sn"]
+radius = 1.0
+height = 2.0
 
 [node name="TestBed" type="Node3D"]
 
@@ -221,4 +226,12 @@ mesh = SubResource("BoxMesh_0c2sn")
 skeleton = NodePath("../MeshInstance3D")
 
 [node name="Boat" parent="." instance=ExtResource("11_02yxd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, -0.8, -1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, -0.8, -1)
+
+[node name="FloatingSphere" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9000001, 21.800001)
+script = ExtResource("11_kfroe")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="FloatingSphere"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.8000002, 0)
+mesh = SubResource("SphereMesh_0c2sn")
